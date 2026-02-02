@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" data-theme="ember-dark" data-accent="ember">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="PeerConnect: real-time one-to-one messaging with live presence, typing indicators and read receipts." />
+    <meta name="theme-color" content="#0B0D12" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+    />
+    <title>PeerConnect</title>
+    <!--
+      Apply the saved theme + accent before React loads, so there's no flash.
+      Keep in sync with src/constants/themes.js.
+    -->
+    <script>
+      (function () {
+        var theme = 'ember-dark';
+        var accent = 'ember';
+        try {
+          var mode = localStorage.getItem('pc-theme-mode') || 'dark';
+          if (mode === 'system') {
+            mode = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          theme = mode === 'light' ? 'ember-light' : 'ember-dark';
+          var saved = localStorage.getItem('pc-accent');
+          if (['ember', 'iris', 'jade', 'sky', 'rose'].indexOf(saved) !== -1) accent = saved;
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute('data-accent', accent);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
