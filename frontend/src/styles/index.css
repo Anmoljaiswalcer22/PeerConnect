@@ -1,0 +1,379 @@
+/* ============================================================================
+   PeerConnect design system: "Ember on Ink"
+   ----------------------------------------------------------------------------
+   1. daisyUI themes   → semantic colours used by daisyUI components
+   2. Extra tokens     → surfaces, text levels, borders, bubbles (per theme)
+   3. Tailwind @theme  → exposes tokens as utilities: bg-surface-2, text-fg-muted…
+   4. Base layer       → typography, focus rings, reduced motion
+   ========================================================================== */
+
+@import 'tailwindcss';
+
+@plugin 'daisyui' {
+  themes: false; /* only our own themes below */
+  logs: false;
+}
+
+/* ---------- 1. daisyUI themes ---------- */
+
+@plugin 'daisyui/theme' {
+  name: 'ember-dark';
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #0b0d12;
+  --color-base-200: #12151c;
+  --color-base-300: #181c25;
+  --color-base-content: #e8eaf0;
+  --color-primary: #ff8a4c;
+  --color-primary-content: #1a0e07;
+  --color-secondary: #20252f;
+  --color-secondary-content: #e8eaf0;
+  --color-accent: #ff8a4c;
+  --color-accent-content: #1a0e07;
+  --color-neutral: #20252f;
+  --color-neutral-content: #e8eaf0;
+  --color-info: #6cb4f5;
+  --color-info-content: #07131f;
+  --color-success: #3dd68c;
+  --color-success-content: #04140c;
+  --color-warning: #f5c451;
+  --color-warning-content: #1c1404;
+  --color-error: #f26d6d;
+  --color-error-content: #1f0707;
+
+  --radius-selector: 0.375rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin 'daisyui/theme' {
+  name: 'ember-light';
+  default: false;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #f7f7f5;
+  --color-base-200: #ffffff;
+  --color-base-300: #f0f0ec;
+  --color-base-content: #15171c;
+  --color-primary: #c4531b;
+  --color-primary-content: #ffffff;
+  --color-secondary: #e8e8e3;
+  --color-secondary-content: #15171c;
+  --color-accent: #c4531b;
+  --color-accent-content: #ffffff;
+  --color-neutral: #e8e8e3;
+  --color-neutral-content: #15171c;
+  --color-info: #1f6fb8;
+  --color-info-content: #ffffff;
+  --color-success: #1f9d5c;
+  --color-success-content: #ffffff;
+  --color-warning: #a87400;
+  --color-warning-content: #ffffff;
+  --color-error: #c93c3c;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 0.375rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* ---------- 2. Extra per-theme tokens ---------- */
+
+:root,
+[data-theme='ember-dark'] {
+  --pc-surface-1: #12151c; /* sidebar, panels */
+  --pc-surface-2: #181c25; /* cards, received bubble */
+  --pc-surface-3: #20252f; /* hover, inputs */
+  --pc-line: #262b36;
+  --pc-line-strong: #343b48;
+  --pc-fg: #e8eaf0;
+  --pc-fg-muted: #a3a9b7;
+  --pc-fg-subtle: #6e7585;
+  --pc-primary-hover: #ff9d66;
+  --pc-primary-subtle: rgb(255 138 76 / 0.12);
+  --pc-bubble-out: #2a1c14;
+  --pc-bubble-out-line: #3d2819;
+  --pc-bubble-out-fg: #f6e3d8;
+  --pc-shadow-pop: 0 12px 32px rgb(0 0 0 / 0.45);
+}
+
+[data-theme='ember-light'] {
+  --pc-surface-1: #ffffff;
+  --pc-surface-2: #f0f0ec;
+  --pc-surface-3: #e8e8e3;
+  --pc-line: #e2e2dc;
+  --pc-line-strong: #cfcfc8;
+  --pc-fg: #15171c;
+  --pc-fg-muted: #575d69;
+  --pc-fg-subtle: #8a8f99;
+  --pc-primary-hover: #ad4816;
+  --pc-primary-subtle: rgb(196 83 27 / 0.1);
+  --pc-bubble-out: #fce7da;
+  --pc-bubble-out-line: #f6d2bc;
+  --pc-bubble-out-fg: #3b1a08;
+  --pc-shadow-pop: 0 12px 32px rgb(21 23 28 / 0.12);
+}
+
+/* ---------- 2b. Accent colours (Settings → Appearance) ----------
+   Two-attribute selectors outrank the daisyUI theme selector, so these win. */
+
+[data-theme='ember-dark'][data-accent='iris'] {
+  --color-primary: #8b8cf8;
+  --color-primary-content: #0e0e2a;
+  --pc-primary-hover: #a1a2fa;
+  --pc-primary-subtle: rgb(139 140 248 / 0.14);
+  --pc-bubble-out: #1c1c36;
+  --pc-bubble-out-line: #2b2b52;
+  --pc-bubble-out-fg: #e4e4ff;
+}
+[data-theme='ember-dark'][data-accent='jade'] {
+  --color-primary: #3ccb9a;
+  --color-primary-content: #04170f;
+  --pc-primary-hover: #5ad6ab;
+  --pc-primary-subtle: rgb(60 203 154 / 0.13);
+  --pc-bubble-out: #12261f;
+  --pc-bubble-out-line: #1c3b30;
+  --pc-bubble-out-fg: #d6f5ea;
+}
+[data-theme='ember-dark'][data-accent='sky'] {
+  --color-primary: #5ab0f5;
+  --color-primary-content: #04121f;
+  --pc-primary-hover: #78c0f7;
+  --pc-primary-subtle: rgb(90 176 245 / 0.13);
+  --pc-bubble-out: #13212e;
+  --pc-bubble-out-line: #1e3448;
+  --pc-bubble-out-fg: #ddeefc;
+}
+[data-theme='ember-dark'][data-accent='rose'] {
+  --color-primary: #f2789f;
+  --color-primary-content: #22060f;
+  --pc-primary-hover: #f592b2;
+  --pc-primary-subtle: rgb(242 120 159 / 0.13);
+  --pc-bubble-out: #2a161d;
+  --pc-bubble-out-line: #44222e;
+  --pc-bubble-out-fg: #fbe0e8;
+}
+
+[data-theme='ember-light'][data-accent='iris'] {
+  --color-primary: #5354d6;
+  --color-primary-content: #ffffff;
+  --pc-primary-hover: #4546b8;
+  --pc-primary-subtle: rgb(83 84 214 / 0.1);
+  --pc-bubble-out: #e6e6fb;
+  --pc-bubble-out-line: #d2d2f6;
+  --pc-bubble-out-fg: #1a1a4a;
+}
+[data-theme='ember-light'][data-accent='jade'] {
+  --color-primary: #15845e;
+  --color-primary-content: #ffffff;
+  --pc-primary-hover: #106b4c;
+  --pc-primary-subtle: rgb(21 132 94 / 0.1);
+  --pc-bubble-out: #ddf3ea;
+  --pc-bubble-out-line: #c3e8d9;
+  --pc-bubble-out-fg: #0b3324;
+}
+[data-theme='ember-light'][data-accent='sky'] {
+  --color-primary: #1f6fb8;
+  --color-primary-content: #ffffff;
+  --pc-primary-hover: #195c99;
+  --pc-primary-subtle: rgb(31 111 184 / 0.1);
+  --pc-bubble-out: #dfecf9;
+  --pc-bubble-out-line: #c6ddf3;
+  --pc-bubble-out-fg: #0b2740;
+}
+[data-theme='ember-light'][data-accent='rose'] {
+  --color-primary: #c23d68;
+  --color-primary-content: #ffffff;
+  --pc-primary-hover: #a43257;
+  --pc-primary-subtle: rgb(194 61 104 / 0.1);
+  --pc-bubble-out: #fae1e9;
+  --pc-bubble-out-line: #f3c8d6;
+  --pc-bubble-out-fg: #3f0f1f;
+}
+
+/* ---------- 3. Tailwind tokens ---------- */
+
+@theme inline {
+  --color-surface-1: var(--pc-surface-1);
+  --color-surface-2: var(--pc-surface-2);
+  --color-surface-3: var(--pc-surface-3);
+  --color-line: var(--pc-line);
+  --color-line-strong: var(--pc-line-strong);
+  --color-fg: var(--pc-fg);
+  --color-fg-muted: var(--pc-fg-muted);
+  --color-fg-subtle: var(--pc-fg-subtle);
+  --color-primary-hover: var(--pc-primary-hover);
+  --color-primary-subtle: var(--pc-primary-subtle);
+  --color-bubble-out: var(--pc-bubble-out);
+  --color-bubble-out-line: var(--pc-bubble-out-line);
+  --color-bubble-out-fg: var(--pc-bubble-out-fg);
+  --shadow-pop: var(--pc-shadow-pop);
+}
+
+@theme {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Type scale additions (Tailwind already has xs=12, sm=14, base=16, xl=20, 2xl=24…) */
+  --text-meta: 0.8125rem; /* 13px: timestamps, captions */
+  --text-meta--line-height: 1.125rem;
+  --text-message: 0.9375rem; /* 15px: message text */
+  --text-message--line-height: 1.4rem;
+
+  --radius-bubble: 1rem;
+
+  --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-message-in: message-in 180ms var(--ease-soft) both;
+  --animate-fade-in: fade-in 200ms var(--ease-soft) both;
+  --animate-slide-in: slide-in 220ms var(--ease-soft) both;
+  --animate-rise-in: rise-in 320ms var(--ease-soft) both;
+  --animate-presence-pulse: presence-pulse 1.2s ease-out 1;
+
+  @keyframes slide-in {
+    from {
+      opacity: 0.4;
+      transform: translateX(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes presence-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgb(61 214 140 / 0.55);
+    }
+    100% {
+      box-shadow: 0 0 0 8px rgb(61 214 140 / 0);
+    }
+  }
+
+  @keyframes message-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* ---------- 4. Base ---------- */
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-base-100 font-sans text-sm text-fg;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-primary-subtle);
+  }
+
+  /* Thin, theme-aware scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------- 5. Components ---------- */
+
+@layer components {
+  /* Three bouncing dots: typing indicator */
+  .typing-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .typing-dots > span {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: currentColor;
+    opacity: 0.35;
+    animation: typing-bounce 1.2s infinite ease-in-out;
+  }
+  .typing-dots > span:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+  .typing-dots > span:nth-child(3) {
+    animation-delay: 0.24s;
+  }
+
+  @keyframes typing-bounce {
+    0%,
+    60%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.35;
+    }
+    30% {
+      transform: translateY(-3px);
+      opacity: 0.9;
+    }
+  }
+}
