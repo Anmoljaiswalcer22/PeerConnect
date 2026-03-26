@@ -1,0 +1,79 @@
+### PeerConnect API: manual tests
+### VS Code "REST Client" extension: click "Send Request" above each block.
+### Start the server first: npm run dev
+### Cookies are remembered between requests, so log in once and the rest work.
+
+@baseUrl = http://localhost:5001
+
+### Health check (should show "database": "connected")
+GET {{baseUrl}}/api/health
+
+### ── Auth ──────────────────────────────────────────────────────────────
+
+### Sign up (change the email each time, or use Login below)
+POST {{baseUrl}}/api/auth/signup
+Content-Type: application/json
+
+{
+  "fullName": "Asha Verma",
+  "email": "asha@example.com",
+  "password": "secret123"
+}
+
+### Log in
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "asha@example.com",
+  "password": "secret123"
+}
+
+### Who am I? (session restore)
+GET {{baseUrl}}/api/auth/check
+
+### Socket token (used by the frontend for the Socket.IO handshake)
+GET {{baseUrl}}/api/auth/socket-token
+
+### Update name
+PUT {{baseUrl}}/api/auth/update-profile
+Content-Type: application/json
+
+{
+  "fullName": "Asha V."
+}
+
+### ── Messages ──────────────────────────────────────────────────────────
+
+### Contacts (copy another user's _id from here for the requests below)
+GET {{baseUrl}}/api/messages/users
+
+### Conversation history (replace the id)
+GET {{baseUrl}}/api/messages/REPLACE_WITH_USER_ID?limit=30
+
+### Send a message (replace the id; clientMessageId must be a new UUID each time)
+POST {{baseUrl}}/api/messages/send/REPLACE_WITH_USER_ID
+Content-Type: application/json
+
+{
+  "text": "Hello from REST Client!",
+  "clientMessageId": "{{$guid}}"
+}
+
+### ── Error cases ───────────────────────────────────────────────────────
+
+### Invalid signup → 400 with field details
+POST {{baseUrl}}/api/auth/signup
+Content-Type: application/json
+
+{
+  "fullName": "A",
+  "email": "not-an-email",
+  "password": "short"
+}
+
+### Log out
+POST {{baseUrl}}/api/auth/logout
+
+### Protected route without a session → 401
+GET {{baseUrl}}/api/messages/users
